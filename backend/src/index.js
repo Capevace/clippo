@@ -15,10 +15,10 @@ const config = {
 
 const clients = {};
 
-if (config.env !== 'production')
-  app.use(express.static(__dirname + '/../../frontend/dist'));
-else
+if (config.env === 'production')
   app.use(express.static(__dirname + '/../public'));
+else
+  app.use(express.static(__dirname + '/../../frontend/dist'));
 
 io.on('connection', async socket => {
   // Generate new key
