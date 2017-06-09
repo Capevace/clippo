@@ -1,6 +1,6 @@
 const promisify = require('util').promisify;
 const crypto = require('crypto');
-const sh = require('shorthash').unique;
+const sh = require('./shorthash').unique;
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
