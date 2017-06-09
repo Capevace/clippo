@@ -17,7 +17,7 @@ const FileInput = props => (
 const FileInputLabel = props => (
   <label
     style={{
-      background: '#00bcd4',
+      background: '#2196f3',
       padding: '10px',
       borderRadius: '4px',
       color: 'white',

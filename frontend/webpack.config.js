@@ -1,6 +1,7 @@
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -41,6 +42,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html')
+    }),
+    new FaviconsWebpackPlugin({
+      logo: path.resolve(__dirname, 'src/img/icon.png'),
+      title: 'Clippo'
     })
   ],
   resolve: {
