@@ -1,0 +1,16 @@
+{
+  "name": "clippo-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Lukas von Mateffy (@Capevace)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.3",
+    "shorthash": "^0.0.2",
+    "socket.io": "^2.0.2"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development node src",
+    "start": "NODE_ENV=production node src"
+  }
+}
