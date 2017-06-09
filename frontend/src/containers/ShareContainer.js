@@ -112,7 +112,13 @@ class ShareContainer extends Component {
                       </CardMedia>
                     : <div>
                         <CardText>
-                          {message.clipboard}
+                          <span
+                            style={{
+                              wordBreak: 'break-word'
+                            }}
+                          >
+                            {message.clipboard}
+                          </span>
                         </CardText>
                         {/* <CardActions>
                           <RaisedButton label="Copy" />
