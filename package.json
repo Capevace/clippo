@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node backend/src",
-    "precommit": "lerna run build"
+    "build": "npm --prefix frontend/ run build"
   },
   "repository": {
     "type": "git",
@@ -35,7 +35,6 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
-    "husky": "^0.13.4",
     "lerna": "^2.0.0-rc.5"
   }
 }
