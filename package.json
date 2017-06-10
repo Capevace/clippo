@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node backend/src",
-    "postinstall": "lerna bootstrap && lerna run build"
+    "precommit": "lerna run build"
   },
   "repository": {
     "type": "git",
@@ -27,14 +27,15 @@
   "homepage": "https://github.com/Capevace/clippo#readme",
   "dependencies": {
     "express": "^4.15.3",
+    "lerna": "^2.0.0-rc.5",
     "shorthash": "^0.0.2",
-    "socket.io": "^2.0.2",
-    "lerna": "^2.0.0-rc.5"
+    "socket.io": "^2.0.2"
   },
   "engines": {
     "node": ">=8.0.0"
   },
   "devDependencies": {
+    "husky": "^0.13.4",
     "lerna": "^2.0.0-rc.5"
   }
 }
