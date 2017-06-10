@@ -95,4 +95,23 @@ export function getSocket() {
   return socket;
 }
 
+export function emitClipboard(clipboard, clientId) {
+  socket.emit('post-clipboard', {
+    clipboard,
+    clientId
+  });
+}
+
+export function requestSession(key) {
+  socket.emit('session-request', {
+    key
+  });
+}
+
+export function requestSessionWithShortKey(shortKey) {
+  socket.emit('session-request', {
+    shortKey
+  });
+}
+
 export const emit = (...args) => socket.emit(...args);

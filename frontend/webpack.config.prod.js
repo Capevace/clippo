@@ -27,7 +27,8 @@ module.exports = {
                 'transform-regenerator',
                 'transform-runtime',
                 'transform-object-rest-spread',
-                ['transform-react-jsx', { pragma: 'h' }]
+                ['transform-react-jsx', { pragma: 'h' }],
+                'transform-class-properties'
               ]
             }
           }

@@ -6,10 +6,6 @@ import AppBar from 'material-ui/AppBar';
 import Main from '../containers/Main';
 
 class App extends Component {
-  constructor() {
-    super();
-  }
-
   render() {
     return (
       <div>

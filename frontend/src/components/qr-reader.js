@@ -1,7 +1,6 @@
 import { h, Component } from 'preact';
 
-import RaisedButton from 'material-ui/RaisedButton';
-import Loader from './Loader';
+import Loader from './loader';
 import { FileInput, FileInputLabel } from './file-input';
 
 async function parseQRCodeInFile(file) {
@@ -24,18 +23,13 @@ async function parseQRCodeInFile(file) {
 }
 
 class QRReader extends Component {
-  constructor() {
-    super();
-    this.state = {
-      decoding: false
-    };
+  state = {
+    decoding: false
+  };
 
-    this.focusQRInput = this.focusQRInput.bind(this);
-    this.decode = this.decode.bind(this);
-    this.qrInput = null;
-  }
+  decode = async e => {
+    this.setState({ decoding: true });
 
-  async decode(e) {
     try {
       const { result } = await parseQRCodeInFile(e.target.files[0]);
 
@@ -45,25 +39,20 @@ class QRReader extends Component {
       alert(
         ('We were unable to detect a QRCode in that picture.', e.toString())
       );
+    } finally {
+      this.setState({ decoding: false });
     }
-  }
-
-  focusQRInput() {
-    if (this.qrInput) this.qrInput.click();
-  }
+  };
 
   render(props, state) {
     return state.decoding
-      ? <Loader loading label="Parsing..." />
+      ? <Loader loading label="Decoding Picture..." />
       : <div>
           <FileInput
             type="file"
             name="qrcode"
             id="qrcode"
             onChange={this.decode}
-            ref={input => {
-              this.qrInput = input;
-            }}
           />
           <FileInputLabel htmlFor="qrcode">
             Scan QR Code
