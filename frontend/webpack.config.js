@@ -1,13 +1,12 @@
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './app/index.js',
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: '[name].[hash].js',
+    path: path.resolve(__dirname, 'dist/dev')
   },
   module: {
     rules: [
@@ -41,12 +40,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(['dist/dev']),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/index.html')
-    }),
-    new FaviconsWebpackPlugin({
-      logo: path.resolve(__dirname, 'src/img/icon.png'),
-      title: 'Clippo'
+      template: path.resolve(__dirname, 'app/index.html')
     })
   ],
   resolve: {

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node backend/src",
-    "build": "npm --prefix frontend/ run build"
+    "build": "npm --prefix frontend/ run build",
+    "heroku-postbuild": "npm --prefix frontend/ run build"
   },
   "repository": {
     "type": "git",
@@ -25,12 +26,6 @@
     "url": "https://github.com/Capevace/clippo/issues"
   },
   "homepage": "https://github.com/Capevace/clippo#readme",
-  "dependencies": {
-    "express": "^4.15.3",
-    "lerna": "^2.0.0-rc.5",
-    "shorthash": "^0.0.2",
-    "socket.io": "^2.0.2"
-  },
   "engines": {
     "node": ">=8.0.0"
   },

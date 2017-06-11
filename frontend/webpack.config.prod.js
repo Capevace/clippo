@@ -5,10 +5,10 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './app/index.js',
   output: {
     filename: '[name].[hash].js',
-    path: path.resolve(__dirname, '../backend/public/')
+    path: path.resolve(__dirname, 'dist/production')
   },
   module: {
     rules: [
@@ -42,14 +42,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['backend/public'], {
-      root: path.resolve(__dirname, '../')
-    }),
+    new CleanWebpackPlugin(['dist/production']),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/index.html')
+      template: path.resolve(__dirname, 'app/index.html')
     }),
     new FaviconsWebpackPlugin({
-      logo: path.resolve(__dirname, 'src/img/icon.png'),
+      logo: path.resolve(__dirname, 'app/img/icon.png'),
       title: 'Clippo'
     })
   ],
