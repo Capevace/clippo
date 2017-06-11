@@ -9,7 +9,7 @@
     "socket.io": "^2.0.2"
   },
   "scripts": {
-    "dev": "NODE_ENV=development node src",
-    "start": "NODE_ENV=production node src"
+    "dev": "NODE_ENV=development node app",
+    "start": "NODE_ENV=production node app"
   }
 }
