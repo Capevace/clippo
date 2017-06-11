@@ -4,7 +4,7 @@
   "description": "An open-source service to securely exchange your clipboard between two devices.",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node backend/src",
+    "start": "npm --prefix backend/ run start",
     "build": "npm --prefix frontend/ run build",
     "heroku-postbuild": "lerna bootstrap && npm --prefix frontend/ run build"
   },
