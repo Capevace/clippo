@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import { event } from './analytics';
 import generateMessageKey from './helpers/generate-message-key';
 import {
   CONNECTION_STATUS_CHANGED,
@@ -39,6 +40,8 @@ export function setupSession(dispatch) {
 
   // Session handlers
   socket.on('session-successful', () => {
+    event('joined_session');
+
     dispatch({
       type: SESSION_STATUS_CHANGED,
       inSession: true
@@ -52,6 +55,8 @@ export function setupSession(dispatch) {
       type: SESSION_STATUS_CHANGED,
       inSession: false
     });
+
+    event('session_failed', message);
 
     sendMessage('The session failed: ' + message);
   });
@@ -106,12 +111,16 @@ export function requestSession(key) {
   socket.emit('session-request', {
     key
   });
+
+  event('session_request');
 }
 
 export function requestSessionWithShortKey(shortKey) {
   socket.emit('session-request', {
     shortKey
   });
+
+  event('session_request_with_short_key');
 }
 
 export const emit = (...args) => socket.emit(...args);
