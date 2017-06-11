@@ -5,7 +5,7 @@
   "author": "Lukas von Mateffy (@Capevace)",
   "license": "MIT",
   "scripts": {
-    "build": "webpack -p --config webpack.config.prod.js",
+    "build": "webpack -p --config webpack.config.prod.js --progress",
     "dev": "webpack --watch"
   },
   "dependencies": {

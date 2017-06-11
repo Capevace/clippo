@@ -29,7 +29,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "devDependencies": {
+  "dependencies": {
     "lerna": "^2.0.0-rc.5"
   }
 }
