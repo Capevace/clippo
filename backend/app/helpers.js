@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const sh = require('shorthash').unique;
+const sh = require('./shorthash').unique;
 const promisify = require('util').promisify;
 const { getExistingLongKeys } = require('./client-list');
 
