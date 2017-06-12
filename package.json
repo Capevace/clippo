@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm --prefix backend/ run start",
     "build": "npm --prefix frontend/ run build",
-    "heroku-postbuild": "lerna bootstrap && npm --prefix frontend/ run production"
+    "heroku-postbuild": "lerna bootstrap && npm --prefix frontend/ run build"
   },
   "repository": {
     "type": "git",
