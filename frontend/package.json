@@ -5,9 +5,11 @@
   "author": "Lukas von Mateffy (@Capevace)",
   "license": "MIT",
   "scripts": {
-    "build": "webpack -p --progress --watch",
+    "build": "npm run production && npm run ssr",
+    "production": "webpack -p --progress",
     "dev": "webpack --progress --watch",
-    "ssr": "webpack --config webpack.config.ssr.js --progress --watch"
+    "ssr": "webpack --config webpack.config.ssr.js --progress",
+    "ssr-watch": "webpack --config webpack.config.ssr.js --progress --watch"
   },
   "dependencies": {
     "axios": "^0.16.1",
