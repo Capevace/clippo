@@ -5,7 +5,7 @@
   "author": "Lukas von Mateffy (@Capevace)",
   "license": "MIT",
   "scripts": {
-    "build": "npm run production && npm run ssr",
+    "build": "NODE_ENV=production npm run production && npm run ssr",
     "production": "webpack -p --progress",
     "dev": "webpack --progress --watch",
     "ssr": "webpack --config webpack.config.ssr.js --progress",

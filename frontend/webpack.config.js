@@ -2,9 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const randomstring = require('randomstring');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
 const isDevBuild = process.env.NODE_ENV !== 'production';
@@ -51,13 +51,13 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
     new CleanWebpackPlugin([isDevBuild ? 'dist/dev' : 'dist/production']),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'app/index.template.html'),
-      filename: 'index.template.html'
-    }),
     new FaviconsWebpackPlugin({
       logo: path.resolve(__dirname, 'app/img/icon.png'),
       title: 'Clippo'
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'app/index.template.html'),
+      filename: 'index.template.html'
     }),
     new ServiceWorkerWebpackPlugin({
       entry: path.join(__dirname, 'app/service-worker.js'),
