@@ -60,6 +60,7 @@ class PasteUtilContainer extends Component {
           <center>
             {isMobile()
               ? <TextField
+                  errorStyle={{}}
                   hintText="Paste your text/image here"
                   value={state.trickValue}
                   onChange={this.updateTrickValue}

@@ -19,6 +19,7 @@ class CodeFormBox extends Component {
         <CardHeader title="Or enter your code here" />
         <CardActions>
           <TextField
+            errorStyle={{}}
             value={state.codeFieldValue}
             onChange={this.updateCodeField}
             hintText="Enter your code here"

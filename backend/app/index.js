@@ -7,6 +7,32 @@ const socketHandler = require('./socket');
 
 console.log('Running in env:', process.env.NODE_ENV);
 
+global.localStorage = {
+  getItem: () => {}
+};
+
+function render() {
+  return require('../../frontend/dist/ssr/bundle').default();
+}
+
+app.get('/s', (req, res) =>
+  res.send(
+    `
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <title></title>
+    </head>
+    <body>
+      <div id="app">${render()}</div>
+      <div id="app2"></div>
+      <script type="text/javascript" src="bundle.js"></script>
+    </body>
+  </html>
+`
+  ));
+
 const config = {
   port: process.env.PORT || 3000,
   env: process.env.NODE_ENV,

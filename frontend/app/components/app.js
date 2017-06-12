@@ -8,7 +8,7 @@ import Main from '../containers/Main';
 class App extends Component {
   render() {
     return (
-      <div>
+      <div id="app2">
         <style>
           {
             `body {

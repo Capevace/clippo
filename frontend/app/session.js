@@ -13,6 +13,13 @@ const cachedKey = localStorage.getItem('auth-key');
 
 let socket;
 
+export function ssrSession() {
+  socket = {
+    on: () => {},
+    emit: () => {}
+  };
+}
+
 export function setupSession(dispatch) {
   socket = io('/', { secure: true });
 

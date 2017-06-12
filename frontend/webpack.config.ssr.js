@@ -1,15 +1,14 @@
+const webpack = require('webpack');
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
-  entry: './app/client.js',
+  entry: './app/ssr.js',
   output: {
-    filename: 'bundle.js' || '[name].[hash].js',
-    path: path.resolve(__dirname, 'dist/production')
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist/ssr'),
+    libraryTarget: 'commonjs2'
   },
+  target: 'node',
   module: {
     rules: [
       {
@@ -34,21 +33,12 @@ module.exports = {
           }
         ]
       },
-      {
-        test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-        include: /flexboxgrid/
-      }
+      { test: /\.css$/, loader: 'ignore-loader' }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist/production']),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'app/index.html')
-    }),
-    new FaviconsWebpackPlugin({
-      logo: path.resolve(__dirname, 'app/img/icon.png'),
-      title: 'Clippo'
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('ssr')
     })
   ],
   resolve: {
