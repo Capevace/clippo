@@ -7,7 +7,7 @@ import {
   requestSessionWithShortKey
 } from '../session';
 
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Container, Row, Col } from 'react-grid-system';
 import TextField from 'material-ui/TextField';
 import {
   Card,
@@ -30,7 +30,7 @@ class AuthenticationContainer extends Component {
 
   render({ connectionKey, connectionShortKey }, state) {
     return (
-      <Grid fluid>
+      <Container>
         <Row>
           <Col xs={12} sm={4} md={4}>
             <ConnectionQRCode connectionKey={connectionKey} />
@@ -46,11 +46,11 @@ class AuthenticationContainer extends Component {
               <ShortKeyLabel shortKey={connectionShortKey} />
             </center>
           </Col>
-          <Col xs={12} md={4} style="margin-top: 30px">
+          <Col xs={12} md={4} style={{ marginTop: '30px' }}>
             <CodeFormBox onCodeSubmit={this.onCodeSubmit} />
           </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
 }

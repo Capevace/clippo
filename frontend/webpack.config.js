@@ -1,12 +1,19 @@
 const path = require('path');
+const webpack = require('webpack');
+const randomstring = require('randomstring');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+
+const isDevBuild = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: './app/client.js',
   output: {
     filename: 'bundle.js' || '[name].[hash].js',
-    path: path.resolve(__dirname, 'dist/dev')
+    path: path.resolve(__dirname, isDevBuild ? 'dist/dev' : 'dist/production')
   },
   module: {
     rules: [
@@ -40,9 +47,24 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist/dev']),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
+    new CleanWebpackPlugin([isDevBuild ? 'dist/dev' : 'dist/production']),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'app/index.html')
+      template: path.resolve(__dirname, 'app/index.template.html'),
+      filename: 'index.template.html'
+    }),
+    new FaviconsWebpackPlugin({
+      logo: path.resolve(__dirname, 'app/img/icon.png'),
+      title: 'Clippo'
+    }),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, 'app/service-worker.js'),
+      transformOptions: jsonStats =>
+        Object.assign({}, jsonStats, {
+          versionHash: randomstring.generate()
+        })
     })
   ],
   resolve: {
@@ -53,5 +75,5 @@ module.exports = {
       'create-react-class': 'preact-compat/lib/create-react-class'
     }
   },
-  devtool: 'eval-source-map'
+  devtool: isDevBuild ? 'eval-source-map' : false
 };

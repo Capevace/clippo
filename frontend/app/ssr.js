@@ -12,4 +12,8 @@ ssrSession();
 
 const Main = require('./main').default;
 
-export default () => renderToString(<Main />);
+export default (userAgent, serverSideScreenClass) => {
+  return renderToString(
+    <Main userAgent={userAgent} serverSideScreenClass={serverSideScreenClass} />
+  );
+};

@@ -6,6 +6,6 @@ import Loader from './loader';
 const ConnectionQRCode = ({ connectionKey }) =>
   connectionKey
     ? <QRCode connectionKey={connectionKey} style={{ width: '100%' }} />
-    : <Loader loading label={'Fetching key...'} />;
+    : <Loader loading label={'Fetching key...'} style={{ width: '100%' }} />;
 
 export default ConnectionQRCode;

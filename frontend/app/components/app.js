@@ -8,15 +8,13 @@ import Main from '../containers/Main';
 class App extends Component {
   render() {
     return (
-      <div id="app2">
+      <div id="apps">
         <style>
-          {
-            `body {
+          {`body {
             margin: 0;
             padding: 0;
             font-family: Roboto;
-          }`
-          }
+          }`}
         </style>
         <AppBar title="Clippo" showMenuIconButton={false} />
 

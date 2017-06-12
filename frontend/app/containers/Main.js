@@ -10,19 +10,19 @@ import Loadable from 'react-loadable';
 const LoadShare = Loadable({
   loader: () => import('./ShareContainer'),
   LoadingComponent: ({ isLoading, pastDelay, error }) =>
-    pastDelay ? isLoading ? 'Loading...' : null : error || null,
+    pastDelay ? (isLoading ? 'Loading...' : null) : error || null,
   delay: 200,
   serverSideRequirePath: require('path').join(__dirname, './ShareContainer'),
   webpackRequireWeakId: () => require.resolveWeak('./ShareContainer')
 });
 
 const Main = props => (
-  <div>
+  <main>
     {!props.inSession ? <AuthenticationContainer /> : <LoadShare />}
     {Object.keys(props.messages).map(messageKey => (
       <Snackbar open message={props.messages[messageKey]} />
     ))}
-  </div>
+  </main>
 );
 
 const mapStateToProps = state => ({

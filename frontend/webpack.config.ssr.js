@@ -33,7 +33,11 @@ module.exports = {
           }
         ]
       },
-      { test: /\.css$/, loader: 'ignore-loader' }
+      {
+        test: /\.css$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+        include: /flexboxgrid/
+      }
     ]
   },
   plugins: [

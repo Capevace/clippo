@@ -1,10 +1,10 @@
 import { h } from 'preact';
 
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Container, Row, Col } from 'react-grid-system';
 import ClipboardCard from './clipboard-card';
 
 const ClipboardList = ({ clipboards, ownClientId }) => (
-  <Grid fluid>
+  <Container>
     {clipboards.map(message => (
       <Row>
         {ownClientId === message.clientId ? <Col xs={1} sm={6} md={8} /> : null}
@@ -14,7 +14,7 @@ const ClipboardList = ({ clipboards, ownClientId }) => (
         {ownClientId !== message.clientId ? <Col xs={1} sm={6} md={8} /> : null}
       </Row>
     ))}
-  </Grid>
+  </Container>
 );
 
 export default ClipboardList;

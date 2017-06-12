@@ -1,5 +1,21 @@
-if (module.hot) {
+if (process.env.NODE_ENV === 'development') {
   require('preact/devtools');
+}
+
+// // check if Service Worker support exists in browser or not
+// if ('serviceWorker' in navigator) {
+//   //Service Worker support exists
+// } else {
+//   //still not supported
+// }
+//
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
+
+if ('serviceWorker' in navigator) {
+  runtime
+    .register()
+    .then(() => console.info('Service worker registered.'))
+    .catch(e => console.error('Error registering Service Worker', e));
 }
 
 // Polyfill Promises
@@ -19,5 +35,5 @@ import Main from './main';
 render(
   <Main />,
   document.querySelector('#app'),
-  document.querySelector('#app2')
+  document.querySelector('#apps')
 );

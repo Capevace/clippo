@@ -4,49 +4,24 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const socketHandler = require('./socket');
+const MobileDetect = require('mobile-detect');
+const config = require('./config');
+const render = require('./template');
 
 console.log('Running in env:', process.env.NODE_ENV);
 
-global.localStorage = {
-  getItem: () => {}
-};
+app.get('/', (req, res) => {
+  const userAgent = req.headers['user-agent'];
+  const md = new MobileDetect(userAgent);
 
-function render() {
-  return require('../../frontend/dist/ssr/bundle').default();
-}
+  let serverSideScreenClass = 'xl';
+  if (md.phone() !== null) serverSideScreenClass = 'xs';
+  if (md.tablet() !== null) serverSideScreenClass = 'md';
 
-app.get('/s', (req, res) =>
-  res.send(
-    `
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="utf-8">
-      <title></title>
-    </head>
-    <body>
-      <div id="app">${render()}</div>
-      <div id="app2"></div>
-      <script type="text/javascript" src="bundle.js"></script>
-    </body>
-  </html>
-`
-  ));
+  res.send(render(userAgent, serverSideScreenClass));
+});
 
-const config = {
-  port: process.env.PORT || 3000,
-  env: process.env.NODE_ENV,
-  frontendBuildPath: path.resolve(__dirname, '../../frontend/dist/production'),
-  dev_frontendBuildPath: path.resolve(__dirname, '../../frontend/dist/dev')
-};
-
-app.use(
-  express.static(
-    config.env === 'production'
-      ? config.frontendBuildPath
-      : config.dev_frontendBuildPath
-  )
-);
+app.use(express.static(config.buildPath));
 
 io.on('connection', socketHandler(io));
 
