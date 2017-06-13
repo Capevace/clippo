@@ -2,8 +2,8 @@ import { h, Component } from 'preact';
 import { connect } from 'preact-redux';
 import { getSocket } from '../session';
 
-import PasteUtilContainer from '../components/paste-util-container';
-import ClipboardList from '../components/clipboard-list';
+import PasteUtilContainer from '../shared/paste-util-container';
+import ClipboardList from '../shared/clipboard-list';
 
 function emitClipboard(clipboard, clientId) {
   getSocket().emit('post-clipboard', {

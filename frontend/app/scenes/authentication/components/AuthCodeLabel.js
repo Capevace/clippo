@@ -22,7 +22,7 @@ const CodeSeparator = props => (
   />
 );
 
-const ShortKeyLabel = ({ shortKey }) =>
+const AuthCodeLabel = ({ shortKey }) =>
   !shortKey
     ? <CodeLabel>
         LOA<CodeSeparator>D</CodeSeparator>ING
@@ -33,4 +33,4 @@ const ShortKeyLabel = ({ shortKey }) =>
         {shortKey.substr(3, 3)}
       </CodeLabel>;
 
-export default ShortKeyLabel;
+export default AuthCodeLabel;

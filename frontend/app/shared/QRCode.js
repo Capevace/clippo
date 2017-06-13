@@ -34,7 +34,7 @@ class QRCode extends Component {
   render(props, state) {
     return state.url
       ? <img style={props.style} class={props.class} src={state.url} />
-      : 'Generating...';
+      : null;
   }
 }
 

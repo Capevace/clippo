@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import sanatizeShortCode from '../helpers/sanatize-short-code';
+import sanatizeShortCode from '../../../helpers/sanatize-short-code';
 
 import { css } from 'glamor';
 
@@ -31,7 +31,7 @@ const buttonStyle = css({
   }
 });
 
-class CodeFormBox extends Component {
+class AuthCodeForm extends Component {
   state = {
     codeFieldValue: ''
   };
@@ -63,4 +63,4 @@ class CodeFormBox extends Component {
   }
 }
 
-export default CodeFormBox;
+export default AuthCodeForm;

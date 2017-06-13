@@ -7,6 +7,15 @@ import { css } from 'glamor';
 import AppBar from 'material-ui/AppBar';
 import Main from '../containers/Main';
 
+import { Provider } from 'preact-redux';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { blue500, blue700 } from 'material-ui/styles/colors';
+import ContextProvider from './context-provider';
+
+import store from '../redux/store';
+
 const containerStyle = css({
   width: '900px',
   margin: '0 auto'
@@ -89,30 +98,44 @@ const Header = () => (
   </header>
 );
 
-class App extends Component {
-  render() {
-    return (
-      <div id="apps">
-        <style>
-          {`body {
-            margin: 0;
-            padding: 0;
-            font-family: Lato;
-            -webkit-font-smoothing: antialiased;
-          }
-          * {
-            box-sizing: border-box;
-            font-family: Lato;
-          }`}
-        </style>
-        <Container>
-          <Header />
-          <Main />
-        </Container>
-        {/* <Route exact path="/" component={Main} /> */}
-      </div>
-    );
-  }
-}
+const App = ({ serverSideScreenClass, userAgent }) => (
+  <ContextProvider
+    context={{
+      serverSideScreenClass
+    }}
+  >
+    <Provider store={store}>
+      <MuiThemeProvider
+        muiTheme={getMuiTheme({
+          palette: {
+            primary1Color: blue500,
+            primary2Color: blue700
+          },
+          userAgent
+        })}
+      >
+        <div id="app-wrapper">
+          <style>
+            {`body {
+                  margin: 0;
+                  padding: 0;
+                  font-family: Lato;
+                  -webkit-font-smoothing: antialiased;
+                }
+                * {
+                  box-sizing: border-box;
+                  font-family: Lato;
+                }`}
+          </style>
+          <Container>
+            <Header />
+            <Main />
+          </Container>
+          {/* <Route exact path="/" component={Main} /> */}
+        </div>
+      </MuiThemeProvider>
+    </Provider>
+  </ContextProvider>
+);
 
 export default App;

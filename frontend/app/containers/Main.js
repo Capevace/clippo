@@ -3,7 +3,8 @@ import { connect } from 'preact-redux';
 import { join } from 'path';
 
 import Snackbar from 'material-ui/Snackbar';
-import AuthenticationContainer from './AuthenticationContainer';
+import AuthContainer from '../scenes/authentication/AuthContainer';
+import Loader from '../shared/Loader';
 
 import Loadable from 'react-loadable';
 
@@ -18,7 +19,7 @@ const LoadShare = Loadable({
 
 const Main = props => (
   <section>
-    {!props.inSession ? <AuthenticationContainer /> : <LoadShare />}
+    {!props.inSession ? <AuthContainer /> : <LoadShare />}
     {Object.keys(props.messages).map(messageKey => (
       <Snackbar open message={props.messages[messageKey]} />
     ))}

@@ -1,44 +1,52 @@
 import { h, Component } from 'preact';
 import { connect } from 'preact-redux';
-import sanatizeShortCode from '../helpers/sanatize-short-code';
+import sanatizeShortCode from '../../helpers/sanatize-short-code';
 import {
   getSocket,
   requestSession,
   requestSessionWithShortKey
-} from '../session';
+} from '../../session';
 
 import { css } from 'glamor';
 
-import { Container, Row, Col } from 'react-grid-system';
-import CodeFormBox from '../components/code-form-box';
-import ShortKeyLabel from '../components/short-key-label';
-import ConnectionQRCode from '../components/connection-qr-code';
-import HighlightBox from '../components/highlight-box';
-import Tutorial from '../components/tutorial';
+import { Row, Col } from 'react-grid-system';
+import HighlightBox from '../../shared/highlight-box';
+import Loader from '../../shared/Loader';
+import AuthCodeForm from './components/AuthCodeForm';
+import AuthCodeLabel from './components/AuthCodeLabel';
+import AuthQRCode from './components/AuthQRCode';
+import AuthTutorial from './components/AuthTutorial';
 
 class AuthenticationContainer extends Component {
   onCodeSubmit = code => requestSessionWithShortKey(sanatizeShortCode(code));
 
   render({ connectionKey, connectionShortKey }, state) {
     return (
-      <Container>
+      <div>
         <Row>
           <Col xs={12} sm={6}>
-            <ConnectionQRCode connectionKey={connectionKey} />
+            <AuthQRCode connectionKey={connectionKey} />
           </Col>
           <Col xs={12} sm={6}>
-            <Tutorial />
+            <AuthTutorial />
           </Col>
         </Row>
         <Row>
           <Col xs={12} sm={6}>
             <HighlightBox heading="Your Code">
-              <ShortKeyLabel shortKey={connectionShortKey} />
+              {connectionShortKey
+                ? <AuthCodeLabel shortKey={connectionShortKey} />
+                : <Loader
+                    loading
+                    color="#00e092"
+                    width={40}
+                    style="margin: 0;"
+                  />}
             </HighlightBox>
           </Col>
           <Col xs={12} sm={6}>
             <HighlightBox heading="Enter a Code">
-              <CodeFormBox onCodeSubmit={this.onCodeSubmit} />
+              <AuthCodeForm onCodeSubmit={this.onCodeSubmit} />
             </HighlightBox>
             {/* <center>
               <QRReader onDecode={requestSession} /><br />
@@ -46,7 +54,7 @@ class AuthenticationContainer extends Component {
             </center> */}
           </Col>
         </Row>
-      </Container>
+      </div>
     );
   }
 }

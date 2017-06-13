@@ -7,8 +7,8 @@
   "scripts": {
     "build": "NODE_ENV=production npm run production && npm run ssr",
     "production": "webpack -p --progress",
-    "dev": "webpack --progress --watch",
-    "ssr": "webpack --config webpack.config.ssr.js --progress",
+    "dev": "NODE_ENV=development webpack --progress --watch",
+    "ssr": "NODE_ENV=ssr webpack --config webpack.config.ssr.js --progress",
     "ssr-watch": "webpack --config webpack.config.ssr.js --progress --watch"
   },
   "dependencies": {
@@ -54,6 +54,7 @@
     "html-webpack-template": "^6.0.1",
     "ignore-loader": "^0.1.2",
     "randomstring": "^1.1.5",
+    "script-ext-html-webpack-plugin": "^1.8.1",
     "serviceworker-webpack-plugin": "^0.2.2",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.3",

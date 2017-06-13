@@ -29,7 +29,7 @@ const textSeparator = css({
   color: '#A2A2A2'
 });
 
-const Tutorial = () => (
+const AuthTutorial = () => (
   <span>
     <h2>How it works</h2>
     <ol {...orderedList}>
@@ -46,4 +46,4 @@ const Tutorial = () => (
   </span>
 );
 
-export default Tutorial;
+export default AuthTutorial;

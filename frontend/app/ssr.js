@@ -10,15 +10,14 @@ import { h } from 'preact';
 import renderToString from 'preact-render-to-string';
 import { renderStatic } from 'glamor/server';
 import { ssrSession } from './session';
+import App from './shared/App';
 
 ssrSession();
-
-const Main = require('./main').default;
 
 export default (userAgent, serverSideScreenClass) => {
   let output = renderStatic(() =>
     renderToString(
-      <Main
+      <App
         userAgent={userAgent}
         serverSideScreenClass={serverSideScreenClass}
       />
