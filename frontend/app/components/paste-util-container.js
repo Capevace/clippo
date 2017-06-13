@@ -5,11 +5,12 @@ import { Card, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FileInput from './file-input';
 import FileInputLabel from './file-input-label';
+import HighlightBox from './highlight-box';
 
 const PasteLabel = props => (
   <span
     style={{
-      color: 'gray',
+      color: 'black',
       fontSize: '20px',
       fontWeight: 'bold'
     }}
@@ -55,32 +56,28 @@ class PasteUtilContainer extends Component {
 
   render(props, state) {
     return (
-      <Card style="margin-bottom: 20px;">
-        <CardText>
-          <center>
-            {isMobile()
-              ? <TextField
-                  errorStyle={{}}
-                  hintText="Paste your text/image here"
-                  value={state.trickValue}
-                  onChange={this.updateTrickValue}
-                />
-              : <PasteLabel>Press CTRL+V or CMD+V</PasteLabel>}
-
-            &nbsp;&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;&nbsp;
-
-            <FileInput
-              type="file"
-              name="paster"
-              id="paster"
-              onChange={this.fileSelected}
+      <center style="margin-top: 40px; margin-bottom: 30px;">
+        {isMobile()
+          ? <TextField
+              errorStyle={{}}
+              hintText="Paste your text/image here"
+              value={state.trickValue}
+              onChange={this.updateTrickValue}
             />
-            <FileInputLabel htmlFor="paster">
-              Drop a file
-            </FileInputLabel>
-          </center>
-        </CardText>
-      </Card>
+          : <PasteLabel>Press CTRL+V or CMD+V</PasteLabel>}
+
+        &nbsp;&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <FileInput
+          type="file"
+          name="paster"
+          id="paster"
+          onChange={this.fileSelected}
+        />
+        <FileInputLabel htmlFor="paster">
+          Drop a file
+        </FileInputLabel>
+      </center>
     );
   }
 }

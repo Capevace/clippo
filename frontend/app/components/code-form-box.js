@@ -1,9 +1,35 @@
 import { h, Component } from 'preact';
 import sanatizeShortCode from '../helpers/sanatize-short-code';
 
-import { Card, CardActions, CardHeader } from 'material-ui/Card';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import { css } from 'glamor';
+
+import { Row, Col } from 'react-grid-system';
+
+const inputStyle = css({
+  height: '40px',
+  border: 'none',
+  borderRadius: '5px',
+  textAlign: 'center',
+  fontSize: '20px',
+  width: '100%'
+});
+
+const buttonStyle = css({
+  height: '40px',
+  border: 'none',
+  borderRadius: '5px',
+  textAlign: 'center',
+  fontSize: '17px',
+  width: '100%',
+  background: '#00FFA6',
+  cursor: 'pointer',
+  ':hover': {
+    background: '#00e092'
+  },
+  ':active': {
+    background: '#008254'
+  }
+});
 
 class CodeFormBox extends Component {
   state = {
@@ -15,24 +41,24 @@ class CodeFormBox extends Component {
 
   render(props, state) {
     return (
-      <Card>
-        <CardHeader title="Or enter your code here" />
-        <CardActions>
-          <TextField
-            errorStyle={{}}
+      <Row>
+        <Col xs={6}>
+          <input
+            {...inputStyle}
             value={state.codeFieldValue}
             onChange={this.updateCodeField}
-            hintText="Enter your code here"
+            placeholder="xyz-xyz"
           />
-          <br />
-          <RaisedButton
-            primary
-            label="Connect"
+        </Col>
+        <Col xs={6}>
+          <button
+            {...buttonStyle}
             onClick={() => props.onCodeSubmit(state.codeFieldValue)}
-            style="float: right"
-          />
-        </CardActions>
-      </Card>
+          >
+            Connect to Client
+          </button>
+        </Col>
+      </Row>
     );
   }
 }

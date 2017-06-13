@@ -1,17 +1,21 @@
 import { h } from 'preact';
+import { css } from 'glamor';
 
-const FileInputLabel = props => (
-  <label
-    style={{
-      background: '#2196f3',
-      padding: '10px',
-      borderRadius: '4px',
-      color: 'white',
-      cursor: 'pointer',
-      display: 'inline-block'
-    }}
-    {...props}
-  />
-);
+const labelStyle = css({
+  background: '#00FFA6',
+  cursor: 'pointer',
+  padding: '10px',
+  borderRadius: '4px',
+  color: 'black',
+  cursor: 'pointer',
+  display: 'inline-block',
+  ':hover': {
+    background: '#00e092'
+  },
+  ':active': {
+    background: '#008254'
+  }
+});
+const FileInputLabel = props => <label {...labelStyle} {...props} />;
 
 export default FileInputLabel;

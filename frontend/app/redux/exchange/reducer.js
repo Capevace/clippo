@@ -8,9 +8,15 @@ const initialState = {
 function exchange(state = initialState, action) {
   switch (action.type) {
     case RECEIVED_CLIPBOARD:
+      let clipboards = state.clipboards.slice();
+      clipboards.unshift({
+        ...action.clipboard,
+        id: String(Math.floor(Math.random() * 99999))
+      });
+
       return {
         ...state,
-        clipboards: [...state.clipboards, action.clipboard]
+        clipboards
       };
     case CLEAR_CLIPBOARDS:
     case SESSION_STATUS_CHANGED:

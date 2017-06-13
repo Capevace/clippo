@@ -1,27 +1,28 @@
 import { h } from 'preact';
+import { css } from 'glamor';
 import isSrcImage from '../helpers/is-src-image';
 
-import { Card, CardMedia, CardText } from 'material-ui/Card';
+import HighlightBox from './highlight-box';
+
+const marginStyle = css({
+  marginTop: '10px',
+  marginBottom: '10px'
+});
 
 const ClipboardCard = ({ clipboard }) => (
-  <Card>
+  <HighlightBox {...marginStyle}>
     {isSrcImage(clipboard)
-      ? <CardMedia>
-          <img src={clipboard} />
-        </CardMedia>
+      ? <img src={clipboard} style="width: 100%;" />
       : <div>
-          <CardText>
-            <span
-              style={{
-                wordBreak: 'break-word'
-              }}
-            >
-              {clipboard}
-            </span>
-          </CardText>
+          <span
+            style={{
+              wordBreak: 'break-word'
+            }}
+          >
+            {clipboard}
+          </span>
         </div>}
-
-  </Card>
+  </HighlightBox>
 );
 
 export default ClipboardCard;

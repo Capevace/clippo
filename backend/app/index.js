@@ -21,6 +21,10 @@ app.get('/', (req, res) => {
   res.send(render(userAgent, serverSideScreenClass));
 });
 
+app.get('/dev', (req, res) => {
+  res.send(render(null, null, true));
+});
+
 app.use(express.static(config.buildPath));
 
 io.on('connection', socketHandler(io));

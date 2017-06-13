@@ -1,11 +1,12 @@
 import { h } from 'preact';
 
 const CodeLabel = props => (
-  <span
+  <div
     style={{
-      color: 'gray',
+      color: 'white',
       fontFamily: 'monospace',
-      fontSize: '50px'
+      fontSize: '35px',
+      textAlign: 'center'
     }}
     {...props}
   />
@@ -13,7 +14,7 @@ const CodeLabel = props => (
 const CodeSeparator = props => (
   <span
     style={{
-      color: '#dedede',
+      color: 'gray',
       pointerEvents: 'none',
       userSelect: 'none'
     }}

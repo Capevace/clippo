@@ -8,13 +8,23 @@ global.localStorage = {
 
 const renderBundle = require('../../frontend/dist/ssr/bundle').default;
 
-const htmlTemplate = fs.readFileSync(
+let htmlTemplate = fs.readFileSync(
   path.resolve(config.buildPath, 'index.template.html'),
   'utf8'
 );
 
-module.exports = function render(userAgent, serverSideScreenClass) {
+module.exports = function render(userAgent, serverSideScreenClass, keepEmpty) {
   const renderedApp = renderBundle(userAgent, serverSideScreenClass);
 
-  return htmlTemplate.replace('{{RENDERED-APP-CONTENT}}', renderedApp);
+  if (process.env.NODE_ENV === 'development') {
+    htmlTemplate = fs.readFileSync(
+      path.resolve(config.buildPath, 'index.template.html'),
+      'utf8'
+    );
+  }
+
+  return htmlTemplate.replace(
+    '{{RENDERED-APP-CONTENT}}',
+    keepEmpty ? '' : renderedApp
+  );
 };

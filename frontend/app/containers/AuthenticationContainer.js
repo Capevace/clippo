@@ -7,23 +7,14 @@ import {
   requestSessionWithShortKey
 } from '../session';
 
+import { css } from 'glamor';
+
 import { Container, Row, Col } from 'react-grid-system';
-import TextField from 'material-ui/TextField';
-import {
-  Card,
-  CardActions,
-  CardHeader,
-  CardMedia,
-  CardTitle,
-  CardText
-} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import Loader from '../components/loader';
-import QRReader from '../components/qr-reader';
-import QRCode from '../components/qr-code';
 import CodeFormBox from '../components/code-form-box';
 import ShortKeyLabel from '../components/short-key-label';
 import ConnectionQRCode from '../components/connection-qr-code';
+import HighlightBox from '../components/highlight-box';
+import Tutorial from '../components/tutorial';
 
 class AuthenticationContainer extends Component {
   onCodeSubmit = code => requestSessionWithShortKey(sanatizeShortCode(code));
@@ -32,22 +23,27 @@ class AuthenticationContainer extends Component {
     return (
       <Container>
         <Row>
-          <Col xs={12} sm={4} md={4}>
+          <Col xs={12} sm={6}>
             <ConnectionQRCode connectionKey={connectionKey} />
           </Col>
-          <Col xs={12} sm={8} md={4}>
-            <h2>How it works</h2>
-            <ol>
-              <li>Open this page on your device</li>
-              <li>Scan this QR Code or enter the following code</li>
-            </ol><br />
-            <center>
-              <QRReader onDecode={requestSession} /><br />
-              <ShortKeyLabel shortKey={connectionShortKey} />
-            </center>
+          <Col xs={12} sm={6}>
+            <Tutorial />
           </Col>
-          <Col xs={12} md={4} style={{ marginTop: '30px' }}>
-            <CodeFormBox onCodeSubmit={this.onCodeSubmit} />
+        </Row>
+        <Row>
+          <Col xs={12} sm={6}>
+            <HighlightBox heading="Your Code">
+              <ShortKeyLabel shortKey={connectionShortKey} />
+            </HighlightBox>
+          </Col>
+          <Col xs={12} sm={6}>
+            <HighlightBox heading="Enter a Code">
+              <CodeFormBox onCodeSubmit={this.onCodeSubmit} />
+            </HighlightBox>
+            {/* <center>
+              <QRReader onDecode={requestSession} /><br />
+
+            </center> */}
           </Col>
         </Row>
       </Container>

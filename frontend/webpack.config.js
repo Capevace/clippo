@@ -12,7 +12,7 @@ const isDevBuild = process.env.NODE_ENV !== 'production';
 module.exports = {
   entry: './app/client.js',
   output: {
-    filename: '[name].[hash].js',
+    filename: isDevBuild ? 'bundle.js' : '[name].[hash].js',
     path: path.resolve(__dirname, isDevBuild ? 'dist/dev' : 'dist/production')
   },
   module: {

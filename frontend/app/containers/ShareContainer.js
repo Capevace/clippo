@@ -17,7 +17,7 @@ const ShareContainer = ({ clipboards, clientId }) => (
     <PasteUtilContainer
       onPaste={clipboard => emitClipboard(clipboard, clientId)}
     />
-    <ClipboardList clipboards={clipboards.reverse()} ownClientId={clientId} />
+    <ClipboardList clipboards={clipboards} ownClientId={clientId} />
   </div>
 );
 

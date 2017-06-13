@@ -17,12 +17,12 @@ const LoadShare = Loadable({
 });
 
 const Main = props => (
-  <main>
+  <section>
     {!props.inSession ? <AuthenticationContainer /> : <LoadShare />}
     {Object.keys(props.messages).map(messageKey => (
       <Snackbar open message={props.messages[messageKey]} />
     ))}
-  </main>
+  </section>
 );
 
 const mapStateToProps = state => ({
