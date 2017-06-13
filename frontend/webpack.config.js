@@ -63,7 +63,13 @@ module.exports = {
       entry: path.join(__dirname, 'app/service-worker.js'),
       transformOptions: jsonStats =>
         Object.assign({}, jsonStats, {
-          versionHash: randomstring.generate()
+          versionHash: randomstring.generate(),
+          static: [
+            isDevBuild
+              ? 'http://localhost:3000'
+              : 'https://clippo.herokuapp.com',
+            'https://fonts.googleapis.com/css?family=Roboto:400,500'
+          ]
         })
     })
   ],

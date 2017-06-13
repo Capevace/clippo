@@ -14,7 +14,7 @@ let htmlTemplate = fs.readFileSync(
 );
 
 module.exports = function render(userAgent, serverSideScreenClass, keepEmpty) {
-  const renderedApp = renderBundle(userAgent, serverSideScreenClass);
+  const appOutput = renderBundle(userAgent, serverSideScreenClass);
 
   if (process.env.NODE_ENV === 'development') {
     htmlTemplate = fs.readFileSync(
@@ -23,8 +23,8 @@ module.exports = function render(userAgent, serverSideScreenClass, keepEmpty) {
     );
   }
 
-  return htmlTemplate.replace(
-    '{{RENDERED-APP-CONTENT}}',
-    keepEmpty ? '' : renderedApp
-  );
+  return htmlTemplate
+    .replace('{{RENDERED-APP-HTML}}', keepEmpty ? '' : appOutput.html)
+    .replace('{{RENDERED-APP-CSS}}', keepEmpty ? '' : appOutput.css)
+    .replace("'{{RENDERED-APP-STYLE-IDS}}'", JSON.stringify(appOutput.ids));
 };

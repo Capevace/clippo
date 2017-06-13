@@ -2,6 +2,7 @@ const log = console.info.bind(console, '[ServiceWorker]');
 
 const cache = 'clippo-cache-' + serviceWorkerOption.versionHash;
 const filesToCache = serviceWorkerOption.assets;
+filesToCache.push(serviceWorkerOption.host);
 
 self.addEventListener('install', function(event) {
   log('Installed!');
@@ -18,19 +19,17 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  log('Requested url :-', event.request.url);
-
   event.respondWith(
     //it either expects a Response object as a parameter or a promise that resolves to a Response object
     caches
       .match(event.request) //If there is a match in the cache of this request object
       .then(function(response) {
         if (response) {
-          log('Fulfilling ' + event.request.url + ' from cache.');
+          log('[CACHE] ' + event.request.url);
           //returning response object
           return response;
         } else {
-          log(event.request.url + ' not found in cache fetching from network.');
+          log('[NETWORK] ' + event.request.url);
           //return promise that resolves to Response object
           return fetch(event.request);
         }
@@ -48,7 +47,7 @@ self.addEventListener('activate', function(event) {
         Promise.all(
           keyList.map(function(key) {
             if (key !== cache) {
-              log('Removing old cache ', key);
+              log('[REMOVED CACHE]', key);
               //if key doesn`t matches with present key
               return caches.delete(key);
             }

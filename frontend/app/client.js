@@ -9,14 +9,14 @@ if (process.env.NODE_ENV === 'development') {
 //   //still not supported
 // }
 //
-// import runtime from 'serviceworker-webpack-plugin/lib/runtime';
-//
-// if ('serviceWorker' in navigator) {
-//   runtime
-//     .register()
-//     .then(() => console.info('Service worker registered.'))
-//     .catch(e => console.error('Error registering Service Worker', e));
-// }
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
+
+if ('serviceWorker' in navigator) {
+  runtime
+    .register()
+    .then(() => console.info('Service worker registered.'))
+    .catch(e => console.error('Error registering Service Worker', e));
+}
 
 // Polyfill Promises
 import 'es6-promise/auto';
@@ -25,6 +25,9 @@ injectTapEventPlugin();
 // import './style.css';
 
 import { render, h } from 'preact';
+import { rehydrate } from 'glamor';
+rehydrate(window._glam);
+
 import store from './redux/store';
 import { setupSession } from './session';
 

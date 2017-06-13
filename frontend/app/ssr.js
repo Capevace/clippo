@@ -16,7 +16,7 @@ ssrSession();
 const Main = require('./main').default;
 
 export default (userAgent, serverSideScreenClass) => {
-  let { html, css, ids } = renderStatic(() =>
+  let output = renderStatic(() =>
     renderToString(
       <Main
         userAgent={userAgent}
@@ -25,5 +25,5 @@ export default (userAgent, serverSideScreenClass) => {
     )
   );
 
-  return html;
+  return output;
 };
