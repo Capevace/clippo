@@ -1,8 +1,9 @@
 const log = console.info.bind(console, '[ServiceWorker]');
 
 const cache = 'clippo-cache-' + serviceWorkerOption.versionHash;
-const filesToCache = serviceWorkerOption.assets;
-filesToCache.push(serviceWorkerOption.host);
+const filesToCache = serviceWorkerOption.assets.concat(
+  serviceWorkerOption.static
+);
 
 self.addEventListener('install', function(event) {
   log('Installed!');
