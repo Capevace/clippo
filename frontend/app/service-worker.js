@@ -57,3 +57,45 @@ self.addEventListener('activate', function(event) {
       })
   );
 });
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'DECODE_ARRAYBUFFER') {
+    log('Gottem');
+    log(event.data.payload.buffer);
+    const base64 = btoa(
+      new Uint8Array(event.data.payload.buffer).reduce(
+        (data, byte) => data + String.fromCharCode(byte),
+        ''
+      )
+    );
+
+    postMessage({
+      id: event.data.payload.id,
+      base64
+    });
+  }
+});
+
+function postMessage(msg) {
+  clients.matchAll().then(clients => {
+    clients.forEach(client => {
+      client.postMessage(msg);
+    });
+  });
+}
+
+function send_message_to_client(client, msg) {
+  return new Promise(function(resolve, reject) {
+    var msg_chan = new MessageChannel();
+
+    msg_chan.port1.onmessage = function(event) {
+      if (event.data.error) {
+        reject(event.data.error);
+      } else {
+        resolve(event.data);
+      }
+    };
+
+    client.postMessage(msg);
+  });
+}

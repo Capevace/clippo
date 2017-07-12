@@ -1,30 +1,36 @@
-const fs = require('fs');
-const path = require('path');
-const config = require('./config');
-
 global.localStorage = {
   getItem: () => {}
 };
 
+const fs = require('fs');
+const path = require('path');
+const config = require('./config');
 const renderBundle = require('../../frontend/dist/ssr/bundle').default;
 
-let htmlTemplate = fs.readFileSync(
-  path.resolve(config.buildPath, 'index.template.html'),
-  'utf8'
-);
+function readTemplate() {
+  return fs.readFileSync(
+    path.resolve(config.buildPath, 'index.template.html'),
+    'utf8'
+  );
+}
 
-module.exports = function render(userAgent, serverSideScreenClass, keepEmpty) {
-  const appOutput = renderBundle(userAgent, serverSideScreenClass);
+let cachedHtmlTemplate = readTemplate();
 
-  if (process.env.NODE_ENV === 'development') {
-    htmlTemplate = fs.readFileSync(
-      path.resolve(config.buildPath, 'index.template.html'),
-      'utf8'
-    );
+module.exports = function render(params, ssrEnabled) {
+  const appOutput = renderBundle(params);
+  const isDevEnv = process.env.NODE_ENV === 'development';
+
+  if (isDevEnv) {
+    htmlTemplate = readTemplate();
   }
 
-  return htmlTemplate
-    .replace('{{RENDERED-APP-HTML}}', keepEmpty ? '' : appOutput.html)
-    .replace('{{RENDERED-APP-CSS}}', keepEmpty ? '' : appOutput.css)
-    .replace("'{{RENDERED-APP-STYLE-IDS}}'", JSON.stringify(appOutput.ids));
+  const template = (isDevEnv ? readTemplate() : cachedHtmlTemplate)
+    .replace('{{RENDERED-APP-HTML}}', ssrEnabled ? appOutput.html : '')
+    .replace('{{RENDERED-APP-CSS}}', ssrEnabled ? appOutput.css : '')
+    .replace(
+      "'{{RENDERED-APP-STYLE-IDS}}'",
+      ssrEnabled ? JSON.stringify(appOutput.ids) : '[]'
+    );
+
+  return template;
 };

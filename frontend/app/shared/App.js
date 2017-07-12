@@ -1,24 +1,38 @@
 import { h, Component } from 'preact';
 // import { Route, Link } from 'react-router-dom';
-// import Loadable from 'react-loadable';
+import { Route, NavLink } from 'react-router-dom';
 
+let Router;
+if (process.env.NODE_ENV === 'ssr') {
+  Router = require('react-router-dom').StaticRouter;
+} else {
+  Router = require('react-router-dom').BrowserRouter;
+}
+
+// import Loadable from 'react-loadable';
 import { css } from 'glamor';
 
 import AppBar from 'material-ui/AppBar';
-import Main from '../containers/Main';
+import Main from './Main';
+import MessagesContainer from './MessagesContainer';
 
 import { Provider } from 'preact-redux';
+import Loadable from 'react-loadable';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { blue500, blue700 } from 'material-ui/styles/colors';
-import ContextProvider from './context-provider';
+import ContextProvider from './ContextProvider';
+import Loader from './Loader';
 
 import store from '../redux/store';
 
 const containerStyle = css({
   width: '900px',
-  margin: '0 auto'
+  margin: '0 auto',
+  '@media (max-width: 950px)': {
+    width: '90%'
+  }
 });
 
 const Container = ({ children }) => (
@@ -29,9 +43,12 @@ const Container = ({ children }) => (
 
 const headerStyle = css({
   position: 'relative',
-  height: '62px',
-  paddingTop: '20px',
-  marginBottom: '20px'
+  height: '65px',
+  padding: '5px 30px',
+  marginBottom: '20px',
+  background: 'black',
+  color: 'white',
+  boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.5)'
 });
 const headerTitle = css({
   fontSize: '30px',
@@ -42,11 +59,6 @@ const headerTitle = css({
 const headerSubtitle = css({
   fontSize: '20px',
   fontWeight: '300'
-});
-const headerSeparator = css({
-  width: '100%',
-  height: '3px',
-  background: '#efefef'
 });
 
 const headerMenuNav = css({
@@ -59,9 +71,8 @@ const headerMenuList = css({
   listStyle: 'none',
   padding: 0,
   float: 'right',
-  lineHeight: '50px',
-  margin: 0,
-  marginTop: '6px'
+  lineHeight: '55px',
+  margin: 0
 });
 const headerMenuListItem = css({
   display: 'inline-block',
@@ -71,11 +82,14 @@ const headerMenuLink = css({
   display: 'inline-block',
   color: '#767676',
   textDecoration: 'none',
-  fontWeight: '300'
+  fontWeight: '300',
+  ':hover': {
+    color: '#fff'
+  }
 });
 
 const headerMenuLinkActive = css({
-  color: '#000',
+  color: '#fff',
   fontWeight: 'normal'
 });
 
@@ -87,36 +101,64 @@ const Header = () => (
     <nav {...headerMenuNav}>
       <ul {...headerMenuList}>
         <li {...headerMenuListItem}>
-          <a {...headerMenuLink} {...headerMenuLinkActive} href="#">Home</a>
+          <NavLink
+            to="/"
+            exact
+            className={headerMenuLink}
+            activeClassName={headerMenuLinkActive}
+          >
+            Home {console.log(headerMenuLink, headerMenuLink.toString())}
+          </NavLink>
         </li>
         <li {...headerMenuListItem}>
-          <a {...headerMenuLink} href="#">About</a>
+          <NavLink
+            to="/about"
+            exact
+            className={headerMenuLink}
+            activeClassName={headerMenuLinkActive}
+          >
+            About
+          </NavLink>
         </li>
       </ul>
     </nav>
-    <div {...headerSeparator} />
   </header>
 );
 
-const App = ({ serverSideScreenClass, userAgent }) => (
-  <ContextProvider
-    context={{
-      serverSideScreenClass
-    }}
-  >
-    <Provider store={store}>
-      <MuiThemeProvider
-        muiTheme={getMuiTheme({
-          palette: {
-            primary1Color: blue500,
-            primary2Color: blue700
-          },
-          userAgent
-        })}
-      >
-        <div id="app-wrapper">
-          <style>
-            {`body {
+const AboutPage = Loadable({
+  loader: () => import('../scenes/about/AboutPage'),
+  LoadingComponent: ({ isLoading, pastDelay, error }) =>
+    pastDelay
+      ? isLoading ? <Loader loading style="margin: 100px auto" /> : null
+      : error || null,
+  serverSideRequirePath: require('path').join(
+    __dirname,
+    '../scenes/about/AboutPage'
+  ),
+  webpackRequireWeakId: () => require.resolveWeak('../scenes/about/AboutPage')
+});
+
+const App = ({ serverSideScreenClass, userAgent, location }) =>
+  (console.log('Location', location), (
+    <ContextProvider
+      context={{
+        serverSideScreenClass
+      }}
+    >
+      <Provider store={store}>
+        <MuiThemeProvider
+          muiTheme={getMuiTheme({
+            palette: {
+              primary1Color: blue500,
+              primary2Color: blue700
+            },
+            userAgent
+          })}
+        >
+          <Router location={location}>
+            <div id="app-wrapper">
+              <style>
+                {`body {
                   margin: 0;
                   padding: 0;
                   font-family: Lato;
@@ -126,16 +168,20 @@ const App = ({ serverSideScreenClass, userAgent }) => (
                   box-sizing: border-box;
                   font-family: Lato;
                 }`}
-          </style>
-          <Container>
-            <Header />
-            <Main />
-          </Container>
-          {/* <Route exact path="/" component={Main} /> */}
-        </div>
-      </MuiThemeProvider>
-    </Provider>
-  </ContextProvider>
-);
+              </style>
+
+              <Header />
+              <Container>
+                <Route exact path="/" component={Main} />
+                <Route exact path="/about" component={AboutPage} />
+
+                <MessagesContainer />
+              </Container>
+            </div>
+          </Router>
+        </MuiThemeProvider>
+      </Provider>
+    </ContextProvider>
+  ));
 
 export default App;

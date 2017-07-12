@@ -10,7 +10,7 @@ import {
 import { css } from 'glamor';
 
 import { Row, Col } from 'react-grid-system';
-import HighlightBox from '../../shared/highlight-box';
+import HighlightBox from '../../shared/HighlightBox';
 import Loader from '../../shared/Loader';
 import AuthCodeForm from './components/AuthCodeForm';
 import AuthCodeLabel from './components/AuthCodeLabel';
@@ -18,7 +18,10 @@ import AuthQRCode from './components/AuthQRCode';
 import AuthTutorial from './components/AuthTutorial';
 
 class AuthenticationContainer extends Component {
-  onCodeSubmit = code => requestSessionWithShortKey(sanatizeShortCode(code));
+  onCodeSubmit = code =>
+    requestSessionWithShortKey(
+      sanatizeShortCode(code) || this.props.connectionShortKey
+    );
 
   render({ connectionKey, connectionShortKey }, state) {
     return (

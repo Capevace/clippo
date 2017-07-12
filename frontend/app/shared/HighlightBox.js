@@ -8,7 +8,7 @@ const highlightBox = css({
   borderRadius: '5px',
   color: '#fff',
   padding: '20px',
-  boxShadow: '0px 4px 10px 0px rgba(0,0,0,0.34)'
+  boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.5)'
 });
 
 const highlightBoxHeading = css({

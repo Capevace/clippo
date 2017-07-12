@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import { event } from './analytics';
 import generateMessageKey from './helpers/generate-message-key';
+import ClipboardMessage from './helpers/ClipboardMessage';
 import {
   CONNECTION_STATUS_CHANGED,
   CONNECTION_KEY_RECEIVED,
@@ -80,7 +81,10 @@ export function setupSession(dispatch) {
   socket.on('receive-clipboard', payload => {
     dispatch({
       type: RECEIVED_CLIPBOARD,
-      clipboard: payload
+      data: {
+        clientId: payload.clientId,
+        clipboard: ClipboardMessage.deserialize(payload.clipboard)
+      }
     });
   });
 

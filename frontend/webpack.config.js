@@ -39,11 +39,6 @@ module.exports = {
             }
           }
         ]
-      },
-      {
-        test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-        include: /flexboxgrid/
       }
     ]
   },
@@ -66,15 +61,18 @@ module.exports = {
     new ServiceWorkerWebpackPlugin({
       entry: path.join(__dirname, 'app/service-worker.js'),
       transformOptions: jsonStats =>
-        Object.assign({}, jsonStats, {
-          versionHash: randomstring.generate(),
-          static: [
-            isDevBuild
-              ? 'http://localhost:3000'
-              : 'https://clippo.herokuapp.com',
-            'https://fonts.googleapis.com/css?family=Roboto:400,500'
-          ]
-        })
+        Object.assign(
+          { assets: jsonStats.assets },
+          {
+            versionHash: randomstring.generate(),
+            static: [
+              isDevBuild
+                ? 'http://localhost:3000'
+                : 'https://clippo.herokuapp.com',
+              'https://fonts.googleapis.com/css?family=Roboto:400,500'
+            ]
+          }
+        )
     })
   ],
   resolve: {

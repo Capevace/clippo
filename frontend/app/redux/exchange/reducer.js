@@ -1,18 +1,21 @@
-import { RECEIVED_CLIPBOARD, CLEAR_CLIPBOARDS } from './actions';
+import {
+  RECEIVED_CLIPBOARD,
+  CLEAR_CLIPBOARDS,
+  ADDED_CLIPBOARD_TO_QUEUE,
+  REMOVED_CLIPBOARD_TO_QUEUE
+} from './actions';
 import { SESSION_STATUS_CHANGED } from '../connection/actions';
 
 const initialState = {
-  clipboards: []
+  clipboards: [],
+  pasteQueue: []
 };
 
 function exchange(state = initialState, action) {
   switch (action.type) {
     case RECEIVED_CLIPBOARD:
       let clipboards = state.clipboards.slice();
-      clipboards.unshift({
-        ...action.clipboard,
-        id: String(Math.floor(Math.random() * 99999))
-      });
+      clipboards.unshift(action.data);
 
       return {
         ...state,
@@ -23,6 +26,24 @@ function exchange(state = initialState, action) {
       return {
         ...state,
         clipboards: []
+      };
+    case ADDED_CLIPBOARD_TO_QUEUE:
+      console.log('Added Clipboard');
+      return {
+        ...state,
+        pasteQueue: [
+          ...state.pasteQueue,
+          {
+            id: action.id
+          }
+        ]
+      };
+    case REMOVED_CLIPBOARD_TO_QUEUE:
+      console.log('Removed Clipboard');
+      let queue = state.pasteQueue.slice();
+      return {
+        ...state,
+        pasteQueue: queue.filter(obj => obj.id !== action.idToDelete)
       };
     default:
       return state;

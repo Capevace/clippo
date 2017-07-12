@@ -20,8 +20,9 @@ function sessionRequestHandler(io, socket, socketKeys) {
 
     // If someone tries to connect to themselves, return false
     if (
-      payload.key === socketKeys.long ||
-      normalizeShortKey(payload.shortKey) === socketKeys.short
+      process.env.NODE_ENV !== 'development' &&
+      (payload.key === socketKeys.long ||
+        normalizeShortKey(payload.shortKey) === socketKeys.short)
     ) {
       emitSessionFailure(socket, 'You cannot connect to yourself.');
       return;
@@ -80,11 +81,25 @@ module.exports = function socketHandler(io) {
 
     socket.on('session-request', sessionRequestHandler(io, socket, socketKeys));
 
+    const handleClipboardData = dataListenerEventName => {
+      function handler(data) {
+        console.log('Actual data', data);
+        socket.removeListener(dataListenerEventName, handler);
+      }
+
+      return handler;
+    };
     socket.on('post-clipboard', payload => {
       const client = clientList.getClient(socketKeys.long);
       if (!client.room) {
         return;
       }
+
+      const dataListenerEventName = `post-clipboard-data-${payload.clientId}-${payload.clipboard.id}`;
+      socket.on(
+        dataListenerEventName,
+        handleClipboardData(dataListenerEventName)
+      );
 
       io.to(client.room).emit('receive-clipboard', payload);
     });

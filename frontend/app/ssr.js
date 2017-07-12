@@ -14,12 +14,13 @@ import App from './shared/App';
 
 ssrSession();
 
-export default (userAgent, serverSideScreenClass) => {
+export default params => {
   let output = renderStatic(() =>
     renderToString(
       <App
-        userAgent={userAgent}
-        serverSideScreenClass={serverSideScreenClass}
+        userAgent={params.userAgent}
+        serverSideScreenClass={params.serverSideScreenClass}
+        location={params.location}
       />
     )
   );
